@@ -2,6 +2,7 @@ html, body {
   height: 100%;
   letter-spacing: 3px;
   font-size: 14px;
+  margin: 0;
 }
 .wrapper {
   height: 100%;
@@ -25,15 +26,30 @@ p {
   margin: 30px 35px 0 35px;
 }
 .controls {
-  position: relative;
+  display: flex;
 }
-.left {
-  position: absolute;
-  left: 40px;
+.flex-div {
+  display: flex;
 }
-.right {
-  position: absolute;
-  right: 40px;
+.controls-icon {
+  width: 18px;
+  height: 18px;
+  background-size: 100% auto;
+}
+.pre {
+  background: url('./images/before.png') no-repeat center center;
+}
+.next {
+  background: url('./images/next.png') no-repeat center center;
+}
+.play {
+  width: 24px;
+  height: 24px;
+  background: url('./images/play.png') no-repeat center center;
+  background-size: 100% auto;
+}
+.pause {
+  background: url('./images/pause.png') no-repeat center center;
 }
 .time-controls {
   display: flex;
@@ -50,7 +66,7 @@ p {
 .timeline__active {
   background-color: #fff;
   height: 1.5px;
-  width: 50%;
+  width: 0%;
   position: relative;
 }
 .timeline__active__ball {

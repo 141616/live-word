@@ -145,12 +145,9 @@ var audioDom = document.getElementById('audio');
 var playButton = document.getElementById('play');
 var nextButton = document.getElementById('next');
 var beforeButton = document.getElementById('before');
-var timeLeftText = document.getElementById('time-left');
-var timeRightText = document.getElementById('time-right');
-
-function audioReset() {
-  console.log('reset');
-}
+var playTime = document.getElementById('playTime');
+var allTime = document.getElementById('allTime');
+var progress = document.getElementById('progress');
 
 function audioTransTime(time) {
   if (!time > 0) {
@@ -179,22 +176,35 @@ function audioTransTime(time) {
   return minute + isM0 + sec;
 }
 
-function updateTime(time) {
-  timeLeftText && (timeLeftText.innerText = audioTransTime(time));
+function updateTime(time, duration) {
+  // 更新时间
+  playTime && (playTime.innerText = audioTransTime(time)); // 更新progress
+
+  progress && (progress.style.width = parseInt(time * 100 / duration) + '%');
 }
 
-function addAudioEvent() {
-  // 监听音频播放时间并更新进度条
+function audioReset() {
+  console.log('audio reset');
+}
+
+function audioInit() {
+  var _this = this;
+
+  if (audioDom.duration) {
+    allTime && (allTime.innerText = audioTransTime(audioDom.duration));
+  } // 监听音频播放时间并更新进度条
+
+
   var updateProgress = function updateProgress() {
     if (audioDom.currentTime > 0 && audioDom.duration !== Infinity) {
       // this.loadingClass = false
-      updateTime(audioDom.currentTime);
+      updateTime(audioDom.currentTime, audioDom.duration);
     }
   }; // 监听播放完成事件
 
 
   var audioEnded = function audioEnded() {
-    reset();
+    audioReset();
   }; // 处理播放错误
 
 
@@ -203,30 +213,32 @@ function addAudioEvent() {
 
     switch (errorCode) {
       case 2:
-        console.log('MEDIA_ERR_NETWORK');
+        toast(_this.__('MEDIA_ERR_NETWORK'));
         break;
 
       case 3:
-        console.log('MEDIA_ERR_DECODE');
+        toast(_this.__('MEDIA_ERR_DECODE'));
         break;
 
       case 4:
-        console.log('MEDIA_ERR_SRC_NOT_SUPPORTED');
+        toast(_this.__('MEDIA_ERR_SRC_NOT_SUPPORTED'));
         break;
 
       default:
-        console.log('MEDIA_ERR_UNKNOWN');
+        toast(_this.__('MEDIA_ERR_UNKNOWN'));
     }
 
     audioEnded();
-  };
+  }; // 播放
 
-  var play = function play() {
-    // 执行播放/暂停
+
+  var handlePlay = function handlePlay() {
     if (audioDom.paused) {
-      audioDom.play();
+      audioDom.play && audioDom.play();
+      audioDom.classList.remove('pause');
     } else {
-      audioDom.pause();
+      audioDom.pause && audioDom.pause();
+      audioDom.classList.add('pause');
     }
   }; // 是否支持 onended 监听播放完成事件
 
@@ -240,7 +252,7 @@ function addAudioEvent() {
   _addEventListener(audioDom, 'timeupdate', updateProgress); // 点击播放
 
 
-  _addEventListener(playButton, 'click', play);
+  _addEventListener(playButton, 'click', handlePlay);
 }
 
 function _addEventListener(elem, type, func) {
@@ -257,7 +269,7 @@ function _addEventListener(elem, type, func) {
   elem['_is' + type] = true;
 }
 
-addAudioEvent();
+audioInit();
 },{}],"C:/Users/17173/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -285,7 +297,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52061" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63900" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

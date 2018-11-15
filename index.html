@@ -25,18 +25,18 @@
     </div>
     <div class="footer">
       <div class="controls">
-        <img class="left" width="18" height="18" src="./images/before.png" alt="">
-        <img id="play" width="24" height="24" src="./images/play.png" alt="">
-        <img class="right" width="18" height="18" src="./images/next.png" alt="">
+        <div class="pre controls-icon" ></div>
+        <div class="play" id="play"></div>
+        <div class="next controls-icon"></div>
       </div>
       <div class="time-controls">
-        <div class="time">0:00</div>
+        <div id="playTime" class="time">0:00</div>
         <div class="timeline">
-          <div class="timeline__active">
+          <div class="timeline__active" id="progress">
             <i class="timeline__active__ball"></i>
           </div>
         </div>
-        <div class="time">1:30</div>
+        <div id="allTime" class="time"></div>
       </div>
       <audio id="audio" src="./audio.mp3" preload>
           您的浏览器暂不支持音频播放,请更换其他浏览器!

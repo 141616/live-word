@@ -46,24 +46,111 @@ renderAuthor(data.author)
 renderContent(data.content)
 
 // audio controls
-var audio = document.getElementById('audio')
+var audioDom = document.getElementById('audio')
 var playButton = document.getElementById('play')
 var nextButton = document.getElementById('next')
 var beforeButton = document.getElementById('before')
+var playTime = document.getElementById('playTime')
+var allTime = document.getElementById('allTime')
+var progress = document.getElementById('progress')
 
-_addEventListener(playButton, function() {
-  console.log('play audio')
-  audio && audio.play && audio.play()
-})
+function audioTransTime(time) {
+  if (!time > 0) {
+    return ''
+  }
+  if (time === Infinity) {
+    return '--:--'
+  }
+  var duration = parseInt(time)
+  let minute = parseInt(duration / 60)
+  let sec = duration % 60 + ''
+  var isM0 = ':'
+  if (minute === 0) {
+    minute = '00'
+  } else if (minute < 10) {
+    minute = '0' + minute
+  }
+  if (sec.length === 1) {
+    sec = '0' + sec
+  }
+  return minute + isM0 + sec
+}
 
-function _addEventListener(ele, fn) {
-  if (!ele) {
-    console.warn('element can not be null')
+function updateTime(time, duration) {
+  // 更新时间
+  playTime && (playTime.innerText = audioTransTime(time))
+  // 更新progress
+  progress && (progress.style.width = parseInt(time * 100 / duration) + '%')
+}
+
+function audioReset() {
+  console.log('audio reset')
+}
+
+function audioInit() {
+  if (audioDom.duration) {
+    allTime && (allTime.innerText = audioTransTime(audioDom.duration))
+  }
+  // 监听音频播放时间并更新进度条
+  var updateProgress = function() {
+    if (audioDom.currentTime > 0 && audioDom.duration !== Infinity) {
+      // this.loadingClass = false
+      updateTime(audioDom.currentTime, audioDom.duration)
+    }
+  }
+  // 监听播放完成事件
+  var audioEnded = function() {
+    audioReset()
+  }
+  // 处理播放错误
+  var handleError = e => {
+    var errorCode = e && e.currentTarget && e.currentTarget.error.code
+    switch (errorCode) {
+      case 2:
+        toast(this.__('MEDIA_ERR_NETWORK'))
+        break
+      case 3:
+        toast(this.__('MEDIA_ERR_DECODE'))
+        break
+      case 4:
+        toast(this.__('MEDIA_ERR_SRC_NOT_SUPPORTED'))
+        break
+      default:
+        toast(this.__('MEDIA_ERR_UNKNOWN'))
+    }
+    audioEnded()
+  }
+  // 播放
+  var handlePlay = function() {
+    if (audioDom.paused) {
+      audioDom.play && audioDom.play()
+      audioDom.classList.remove('pause')
+    } else {
+      audioDom.pause && audioDom.pause()
+      audioDom.classList.add('pause')
+    }
+  }
+
+  // 是否支持 onended 监听播放完成事件
+  _addEventListener(audioDom, 'ended', audioEnded)
+  // error
+  _addEventListener(audioDom, 'error', handleError)
+  // 是否支持 ontimeupdate 监听更新事件
+  _addEventListener(audioDom, 'timeupdate', updateProgress)
+  // 点击播放
+  _addEventListener(playButton, 'click', handlePlay)
+}
+
+function _addEventListener(elem, type, func) {
+  if (elem['_is' + type]) {
     return
   }
-  if (ele.onclick) {
-    ele.onclick = fn
+  if (elem['on' + type] === undefined) {
+    elem.addEventListener(type, func, false)
   } else {
-    ele.addEventListener('click', fn)
+    elem['on' + type] = func
   }
+  elem['_is' + type] = true
 }
+
+audioInit()
