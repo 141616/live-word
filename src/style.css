@@ -6,7 +6,7 @@ html, body {
 }
 .wrapper {
   height: 100%;
-  background-image: url('bg.43bfd8b0.jpg');
+  background-image: url('../images/bg.jpg');
   background-size: 100%;
   background-repeat: no-repeat;
   text-align: center;
@@ -14,10 +14,15 @@ html, body {
 .header {
   padding: 85px 0 0 0;
 }
-.content {
+.content-wrapper {
   margin: 20px 35px;
   height: 220px;
+  overflow-y: hidden;
+}
+.content {
+  height: 220px;
   overflow-y: scroll;
+  margin-right: -8px;
 }
 p {
   margin: 6px 0 ;
@@ -37,19 +42,19 @@ p {
   background-size: 100% auto;
 }
 .pre {
-  background: url('before.1e3782fe.png') no-repeat center center;
+  background: url('../images/before.png') no-repeat center center;
 }
 .next {
-  background: url('next.22eb4ca8.png') no-repeat center center;
+  background: url('../images/next.png') no-repeat center center;
 }
 .play {
   width: 24px;
   height: 24px;
-  background: url('play.8ed3ebf5.png') no-repeat center center;
+  background: url('../images/play.png') no-repeat center center;
   background-size: 100% auto;
 }
 .pause {
-  background: url('pause.c2ffb918.png') no-repeat center center;
+  background: url('../images/pause.png') no-repeat center center;
 }
 .time-controls {
   display: flex;

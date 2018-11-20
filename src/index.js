@@ -1,3 +1,6 @@
+import './style.css'
+import AUDIO from './audio.mp3'
+
 var data = {
   title: '另一个我的一生',
   author: '西川',
@@ -44,16 +47,24 @@ function renderContent(vals) {
 renderTitle(data.title)
 renderAuthor(data.author)
 renderContent(data.content)
-
+function createAudio() {
+  var audio = new Audio()
+  audio.src = AUDIO
+  document.body.appendChild(audio)
+  return audio
+}
 // audio controls
-var audioDom = document.getElementById('audio')
+var audioDom = createAudio()
 var playButton = document.getElementById('play')
 var nextButton = document.getElementById('next')
 var beforeButton = document.getElementById('before')
 var playTime = document.getElementById('playTime')
 var allTime = document.getElementById('allTime')
 var progress = document.getElementById('progress')
-
+// 滚动相关
+var content = document.getElementById('content')
+var clientHeight = content.clientHeight
+var scrollHeight = content.scrollHeight
 function audioTransTime(time) {
   if (!time > 0) {
     return ''
@@ -82,6 +93,9 @@ function updateTime(time, duration) {
   // 更新progress
   progress && (progress.style.width = parseInt(time * 100 / duration) + '%')
 }
+function updateScroll(time, duration) {
+  content.scrollTop = (time / duration) * (scrollHeight - clientHeight)
+}
 
 function audioReset() {
   console.log('audio reset')
@@ -96,6 +110,7 @@ function audioInit() {
     if (audioDom.currentTime > 0 && audioDom.duration !== Infinity) {
       // this.loadingClass = false
       updateTime(audioDom.currentTime, audioDom.duration)
+      updateScroll(audioDom.currentTime, audioDom.duration)
     }
   }
   // 监听播放完成事件
@@ -107,16 +122,16 @@ function audioInit() {
     var errorCode = e && e.currentTarget && e.currentTarget.error.code
     switch (errorCode) {
       case 2:
-        toast(this.__('MEDIA_ERR_NETWORK'))
+        console.log('MEDIA_ERR_NETWORK')
         break
       case 3:
-        toast(this.__('MEDIA_ERR_DECODE'))
+        console.log('MEDIA_ERR_DECODE')
         break
       case 4:
-        toast(this.__('MEDIA_ERR_SRC_NOT_SUPPORTED'))
+        console.log('MEDIA_ERR_SRC_NOT_SUPPORTED')
         break
       default:
-        toast(this.__('MEDIA_ERR_UNKNOWN'))
+        console.log('MEDIA_ERR_UNKNOWN')
     }
     audioEnded()
   }

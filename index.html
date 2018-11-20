@@ -13,7 +13,7 @@
     // !function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);
   </script>
   <style></style>
-  <link rel="stylesheet" href="./index.css">
+  <!-- <link rel="stylesheet" href="./index.css"> -->
 </head>
 <body>
   <div class="wrapper">
@@ -21,7 +21,8 @@
       <p class="title"></p>
       <p class="author"></p>
     </div>
-    <div class="content">
+    <div class="content-wrapper">
+      <div class="content" id="content"></div>
     </div>
     <div class="footer">
       <div class="controls">
@@ -38,11 +39,8 @@
         </div>
         <div id="allTime" class="time"></div>
       </div>
-      <audio id="audio" src="./audio.mp3" preload>
-          您的浏览器暂不支持音频播放,请更换其他浏览器!
-      </audio>
     </div>
   </div>
-  <script src="./index.js" type="text/javascript"></script>
+  <!-- <script src="./index.js" type="text/javascript"></script> -->
 </body>
 </html>
