@@ -31,15 +31,15 @@ p {
   margin: 30px 35px 0 35px;
 }
 .controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 .flex-div {
   display: flex;
-}
-.controls-icon {
-  width: 18px;
-  height: 18px;
-  background-size: 100% auto;
 }
 .pre {
   background: url('../images/before.png') no-repeat center center;
@@ -47,11 +47,28 @@ p {
 .next {
   background: url('../images/next.png') no-repeat center center;
 }
+.controls-icon {
+  width: 18px;
+  height: 18px;
+  background-size: 100% auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+  margin: auto 0;
+}
 .play {
   width: 24px;
   height: 24px;
   background: url('../images/play.png') no-repeat center center;
   background-size: 100% auto;
+  margin: 0 25%;
 }
 .pause {
   background: url('../images/pause.png') no-repeat center center;
@@ -66,7 +83,7 @@ p {
   background-color: #000;
   height: 1.5px;
   width: 100%;
-  margin: 6px;
+  margin: 7px 14px;
 }
 .timeline__active {
   background-color: #fff;
