@@ -67,7 +67,7 @@ var clientHeight = content.clientHeight
 var scrollHeight = content.scrollHeight
 function audioTransTime(time) {
   if (!time > 0) {
-    return ''
+    return '00:00'
   }
   if (time === Infinity) {
     return '--:--'
@@ -90,15 +90,20 @@ function audioTransTime(time) {
 function updateTime(time, duration) {
   // 更新时间
   playTime && (playTime.innerText = audioTransTime(time))
+  const durationFormat = audioTransTime(duration)
+  allTime && (allTime.innerText !== durationFormat) && (allTime.innerText = durationFormat)
   // 更新progress
   progress && (progress.style.width = parseInt(time * 100 / duration) + '%')
 }
+
 function updateScroll(time, duration) {
   content.scrollTop = (time / duration) * (scrollHeight - clientHeight)
 }
 
 function audioReset() {
-  console.log('audio reset')
+  playButton.classList.remove('pause')
+  updateTime(audioDom.currentTime, audioDom.duration)
+  updateScroll(audioDom.currentTime, audioDom.duration)
 }
 
 function audioInit() {
@@ -115,6 +120,7 @@ function audioInit() {
   }
   // 监听播放完成事件
   var audioEnded = function() {
+    audioDom.currentTime = 0
     audioReset()
   }
   // 处理播放错误
@@ -139,10 +145,10 @@ function audioInit() {
   var handlePlay = function() {
     if (audioDom.paused) {
       audioDom.play && audioDom.play()
-      audioDom.classList.remove('pause')
+      playButton.classList.add('pause')
     } else {
       audioDom.pause && audioDom.pause()
-      audioDom.classList.add('pause')
+      playButton.classList.remove('pause')
     }
   }
 
