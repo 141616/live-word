@@ -1,23 +1,9 @@
 import './style.css'
-import AUDIO from './audio.mp3'
+import datas from './data'
+import audios from './audios'
 
-var data = {
-  title: '另一个我的一生',
-  author: '西川',
-  content: [
-    '我会在十二岁爱上一个小仙女',
-    '陪她穿过超市的小巷',
-    '阳光闪烁的广场',
-    '我会为她花光手里的钱',
-    '为的是吻一下',
-    '她善变的嘴唇',
-    '抱住她，像抱住',
-    '头顶的月亮',
-    '而假如她拒绝我',
-    '我会一点一滴地品味',
-    '我浪漫的迷惘'
-  ]
-}
+var idx = location.search.replace('?id=', '')
+var data = datas[idx]
 
 function renderTitle(val) {
   var title = document.getElementsByClassName('title')
@@ -49,7 +35,8 @@ renderAuthor(data.author)
 renderContent(data.content)
 function createAudio() {
   var audio = new Audio()
-  audio.src = AUDIO
+  var _id = parseInt(idx) + 1
+  audio.src = audios[_id]
   document.body.appendChild(audio)
   return audio
 }
