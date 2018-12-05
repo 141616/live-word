@@ -1,9 +1,12 @@
 import './style.css'
 import datas from './data'
+import bgs from './bgs'
 import audios from './audios'
 
 var idx = location.search.replace('?id=', '')
 var data = datas[idx]
+var bg = bgs[idx]
+document.getElementById('wrapper').style.backgroundImage = `url('./${bg}')`
 
 function renderTitle(val) {
   var title = document.getElementsByClassName('title')
@@ -30,9 +33,28 @@ function renderContent(vals) {
   })
 }
 
+function renderBgm(val) {
+  var bgm = document.getElementsByClassName('bgm')
+  bgm[0] && (bgm[0].innerText = val)
+}
+
+function renderBgmSource(val) {
+  document.getElementById('bgmSourceFix').innerText = 'BGM来源：'
+  var bgmSource = document.getElementsByClassName('bgm-source')
+  bgmSource[0] && (bgmSource[0].innerText = val) && (bgmSource[0].href = val)
+}
+
+function renderReporter(val) {
+  var reporter = document.getElementsByClassName('reporter')
+  reporter[0] && (reporter[0].innerText = val)
+}
+
 renderTitle(data.title)
 renderAuthor(data.author)
 renderContent(data.content)
+renderBgm(`BGM：${data.bgm}`)
+renderBgmSource(`${data.bgmSource}`)
+renderReporter(`朗诵者：${data.reporter}`)
 function createAudio() {
   var audio = new Audio()
   var _id = parseInt(idx) + 1
@@ -83,8 +105,26 @@ function updateTime(time, duration) {
   progress && (progress.style.width = parseInt(time * 100 / duration) + '%')
 }
 
+// var scrollPos = 0
+var interval = null
+var isStart = false
+function goScroll(content, val) {
+  interval = setInterval(() => {
+    content.scrollBy(0, 1)
+  }, 100);
+}
 function updateScroll(time, duration) {
-  content.scrollTop = (time / duration) * (scrollHeight - clientHeight)
+  // var scrollValue = (time / duration) * (scrollHeight - clientHeight)
+  if (!isStart && duration) {
+    var val = (scrollHeight - clientHeight) / ((duration - time) * 10)
+    goScroll(content, val)
+    isStart = true
+  }
+  if (time === duration) {
+    clearInterval(interval)
+  }
+  // scrollPos = scrollValue
+  // content.scrollTop = (time / duration) * (scrollHeight - clientHeight)
 }
 
 function audioReset() {

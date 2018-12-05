@@ -13,7 +13,8 @@ module.exports = {
     })
   ],
   devServer: {
-    contentBase: './dist'
+    contentBase: './dist',
+    host: '0.0.0.0'
   },
   devtool: 'inline-source-map',
   output: {
