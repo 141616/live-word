@@ -1,7 +1,7 @@
 html, body {
   height: 100%;
-  letter-spacing: 3px;
-  font-size: 14px;
+  /* letter-spacing: 3px; */
+  font-size: 13px;
   margin: 0;
 }
 .wrapper {
@@ -15,12 +15,12 @@ html, body {
   padding: 60px 0 0 0;
 }
 .content-wrapper {
-  margin: 20px 35px;
-  height: 220px;
+  margin: 35px;
+  height: 300px;
   overflow-y: hidden;
 }
 .content {
-  height: 220px;
+  height: 300px;
   overflow-y: scroll;
   margin-right: -8px;
 }
@@ -44,8 +44,14 @@ p {
 .pre {
   background: url('../images/before.png') no-repeat center center;
 }
+.pre-grey {
+  background: url('../images/before_grey.png') no-repeat center center;
+}
 .next {
   background: url('../images/next.png') no-repeat center center;
+}
+.next-grey {
+  background: url('../images/next_grey.png') no-repeat center center;
 }
 .controls-icon {
   width: 18px;
@@ -70,8 +76,16 @@ p {
   background-size: 100% auto;
   margin: 0 25%;
 }
+.play-grey {
+  background: url('../images/play_grey.png') no-repeat center center;
+  background-size: 100% auto;
+}
 .pause {
   background: url('../images/pause.png') no-repeat center center;
+}
+.pause-grey {
+  background: url('../images/pause_grey.png') no-repeat center center;
+  background-size: 100% auto;
 }
 .time-controls {
   display: flex;
@@ -91,6 +105,9 @@ p {
   width: 0%;
   position: relative;
 }
+.grey .timeline__active {
+  background-color: #666;
+}
 .timeline__active__ball {
   position: absolute;
   right: -10px;
@@ -100,10 +117,17 @@ p {
   background-color: #fff;
   border-radius: 10px;
 }
+.grey .timeline__active__ball {
+  background-color: #666;
+}
 .time {
   font-size: 11px;
   letter-spacing: 0px;
   color: #fff;
+  min-width: 2rem;
+}
+.grey .time {
+  color: #666;
 }
 .bgm-source {
   color: #000;

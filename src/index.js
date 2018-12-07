@@ -3,8 +3,10 @@ import datas from './data'
 import bgs from './bgs'
 import audios from './audios'
 
+var PAUSE_CLASS = 'pause'
+var changeColorList = ["9", "18", "27", "36", "46", "56", "64", "72", "82", "90"]
 var idx = location.search.replace('?id=', '')
-var data = datas[idx]
+var data = datas[parseInt(idx) - 1]
 var bg = bgs[idx]
 document.getElementById('wrapper').style.backgroundImage = `url('./${bg}')`
 
@@ -20,7 +22,7 @@ function renderAuthor(val) {
 }
 
 function renderContent(vals) {
-  var content = document.getElementsByClassName('content')
+  var content = document.getElementsByClassName('content-p')
   content = content && content[0]
   vals.forEach(function(val) {
     var line = document.createElement('p')
@@ -57,8 +59,8 @@ renderBgmSource(`${data.bgmSource}`)
 renderReporter(`朗诵者：${data.reporter}`)
 function createAudio() {
   var audio = new Audio()
-  var _id = parseInt(idx) + 1
-  audio.src = audios[_id]
+  // var _id = parseInt(idx) + 1
+  audio.src = audios[idx]
   document.body.appendChild(audio)
   return audio
 }
@@ -66,14 +68,26 @@ function createAudio() {
 var audioDom = createAudio()
 var playButton = document.getElementById('play')
 var nextButton = document.getElementById('next')
-var beforeButton = document.getElementById('before')
+var beforeButton = document.getElementById('pre')
 var playTime = document.getElementById('playTime')
 var allTime = document.getElementById('allTime')
 var progress = document.getElementById('progress')
+var timeControls = document.getElementById('timeControls')
 // 滚动相关
 var content = document.getElementById('content')
 var clientHeight = content.clientHeight
 var scrollHeight = content.scrollHeight
+
+function changeColor() {
+  if (changeColorList.indexOf(idx) > -1) {
+    playButton.classList.add('play-grey')
+    nextButton.classList.add('next-grey')
+    beforeButton.classList.add('pre-grey')
+    timeControls.classList.add('grey')
+    PAUSE_CLASS = 'pause-grey'
+  }
+}
+changeColor()
 function audioTransTime(time) {
   if (!time > 0) {
     return '00:00'
@@ -111,26 +125,25 @@ var isStart = false
 function goScroll(content, val) {
   interval = setInterval(() => {
     content.scrollBy(0, 1)
-  }, 100);
+  }, val);
 }
 function updateScroll(time, duration) {
-  // var scrollValue = (time / duration) * (scrollHeight - clientHeight)
-  if (!isStart && duration) {
-    var val = (scrollHeight - clientHeight) / ((duration - time) * 10)
+  if (!isStart && duration && time > 15 && (scrollHeight - clientHeight) > 0) {
+    var val = ((duration - time) * 1000) / (scrollHeight - clientHeight)
     goScroll(content, val)
     isStart = true
   }
   if (time === duration) {
     clearInterval(interval)
+    content.scrollBy(0, 0)
   }
-  // scrollPos = scrollValue
-  // content.scrollTop = (time / duration) * (scrollHeight - clientHeight)
 }
 
 function audioReset() {
-  playButton.classList.remove('pause')
+  playButton.classList.remove(PAUSE_CLASS)
   updateTime(audioDom.currentTime, audioDom.duration)
   updateScroll(audioDom.currentTime, audioDom.duration)
+  isStart = false
 }
 
 function audioInit() {
@@ -172,10 +185,10 @@ function audioInit() {
   var handlePlay = function() {
     if (audioDom.paused) {
       audioDom.play && audioDom.play()
-      playButton.classList.add('pause')
+      playButton.classList.add(PAUSE_CLASS)
     } else {
       audioDom.pause && audioDom.pause()
-      playButton.classList.remove('pause')
+      playButton.classList.remove(PAUSE_CLASS)
     }
   }
 
