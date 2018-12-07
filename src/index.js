@@ -4,7 +4,7 @@ import bgs from './bgs'
 import audios from './audios'
 
 var PAUSE_CLASS = 'pause'
-var changeColorList = ["9", "18", "27", "36", "46", "56", "64", "72", "82", "90"]
+var changeColorList = ["5", "9", "15", "18", "27", "35", "36", "43", "46", "52", "53", "56", "64", "69", "72", "82", "83", "90", "92"]
 var idx = location.search.replace('?id=', '')
 var data = datas[parseInt(idx) - 1]
 var bg = bgs[idx]
